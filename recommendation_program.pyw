@@ -101,13 +101,13 @@ class HashMap:
 plano_HM = HashMap(len(plano_de_beneficios))
 for key, value in plano_de_beneficios.items():
     plano_HM.assign(key, value)
-#print(plano_HM.array)
+print(plano_HM.array)
 
 # linear search engine
-def linear_search(benefits, target):
+def linear_search(lista, target):
     matches = []
-    for key, value in list(plano_de_beneficios.items()):
-        if target in value.values():
+    for key, value in lista:
+        if (target in key) or (target in value.values()):
             matches.append(key)
     if len(matches) == 0:
         raise ValueError(f"O termo {target} não foi encontrado.")
@@ -144,11 +144,13 @@ def main():
     print((len(welcome_message) + 10) * '=')
     print((len(welcome_message) + 10) * '=')
     print()
-    try:
-        target = autocomplete()
-        print(f"As opções disponíveis são: ", target)
-    except ValueError as error_message:
-        print("{}".format(error_message))
+    # try:
+    #     target = autocomplete()
+    #     print(f"As opções disponíveis são: ", target)
+    # except ValueError as error_message:
+    #     print("{}".format(error_message))
+
+    print(linear_search(plano_HM.array, "xx"))
 
 
 
