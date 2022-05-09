@@ -2,18 +2,10 @@
 
 import os
 
-plano_de_beneficios = {
-    "aposentadoria por tempo de contribuição" : {"beneficiário": "segurado",
+plano_de_beneficios = {"aposentadoria":
+    {"aposentadoria por tempo de contribuição" : {"beneficiário": "segurado",
                                                  "carência": 180,
                                                  "idade mínima": 65},
-    "auxílio por incapacidade temporária": {"beneficiário": "segurado",
-                                            "carência": 12},
-    "aposentadoria por incapacidade permanente": {"beneficiário": "segurado",
-                                                  "carência": 180},
-    "auxílio-acidente": {"beneficiário": "segurado",
-                         "carência": 0},
-    "pensão por morte": {"beneficiário": "dependente",
-                         "carência": 18},
     "aposentadoria especial": {"beneficiário": "segurado",
                                "carência": 180},
     "aposentadoria da pessoa portadora de deficiência": {"beneficiário": "segurado",
@@ -21,23 +13,33 @@ plano_de_beneficios = {
                                                          "tempo de contribuição deficiência grave": 25,
                                                          "tempo de contribuição deficiência moderada": 29,
                                                          "tempo de contribuição deficiência leve": 33},
+     "aposentadoria por idade urbana": {"beneficiário": "segurado",
+                                        "carência": 180},
+     "aposentadoria por idade rural": {"beneficiário": "segurado",
+                                       "carência": 180,
+                                       "idade mínima": 60},
+     "aposentadoria do professor": {"beneficiário": "segurado",
+                                    "carência": 180,
+                                    "tempo de contribuição": 30,
+                                    "idade mínima": 60}},
+    "benefício por incapacidade":
+                           {"aposentadoria por incapacidade permanente": {"beneficiário": "segurado",
+                                                  "carência": 180},
+    "auxílio-acidente": {"beneficiário": "segurado",
+                         "carência": 0},
+    "auxílio por incapacidade temporária": {"beneficiário": "segurado",
+                                            "carência": 12}},
+    "pensão por morte": {"beneficiário": "dependente",
+                         "carência": 18},
     "auxílio-reclusão": {"beneficiário": "dependente",
                          "carência": 24},
     "salário maternidade": {"beneficiário": "segurado",
                             "carência": 10},
-    "aposentadoria por idade urbana": {"beneficiário": "segurado",
-                                       "carência": 180},
-    "aposentadoria por idade rural": {"beneficiário": "segurado",
-                                      "carência": 180,
-                                      "idade mínima": 60},
+
     "salário-família": {"beneficiário": "segurado",
                         "carência": 0},
     "reabilitação profissional": {"beneficiário": "segurado",
-                                  "carência": 0},
-    "aposentadoria do professor": {"beneficiário": "segurado",
-                                   "carência": 180,
-                                   "tempo de contribuição": 30,
-                                   "idade mínima": 60}
+                                  "carência": 0}
 }
 
 # Hash Map class
@@ -101,60 +103,57 @@ class HashMap:
 plano_HM = HashMap(len(plano_de_beneficios))
 for key, value in plano_de_beneficios.items():
     plano_HM.assign(key, value)
-print(plano_HM.array)
+#print(plano_HM.array)
 
 # linear search engine
-def linear_search(lista, target):
+def linear_search(lista):
     matches = []
+    data = []
+    target_chunk = input("Digite as iniciais do termo a pesquisar e pressione <enter>. \nSua escolha: ")
     for key, value in lista:
-        if (target in key) or (target in value.values()):
+        if (target_chunk in key) or (target_chunk in value.values()):
             matches.append(key)
+            data.append(value)
     if len(matches) == 0:
-        raise ValueError(f"O termo {target} não foi encontrado.")
+        raise ValueError(f"Nenhum tópico com as letras {target_chunk} foi encontrado.")
     else:
-        return matches
-
-#print(linear_search(plano_de_beneficios, "segurado"))
-# autocomplete feature
-def autocomplete():
-    possible_targets = []
-    target_chunk = input("Digite as iniciais do termo a pesquisar e pressione <enter>. ")
-    for key, value in plano_de_beneficios.items():
-        if target_chunk in key:
-            possible_targets.append(key)
-            for value in value.keys():
-                if target_chunk in value:
-                    possible_targets.append(value)
-    if len(possible_targets) == 0:
-        raise ValueError(f"Nenhum tópico com a(s) letra(s) {target_chunk} encontrado.")
-    else:
-        return possible_targets
-
-
+        if len(matches) > 1:
+            print(f"Com essas letras, as opções são: {matches}")
+            linear_search(lista)
+        else:
+            print(f"A opção disponível com essas letras é {matches[0]}. Você quer consultar {matches[0]}?"
+                  f" Digite 'S' para sim e 'N' para sair.")
+            answer = input("Sua escolha: ")
+            if answer == "S":
+                print(f"\nEstes são os dados do benefício escolhido: {matches[0]}")
+                if type(list(data[0].values())[0]) is not str:
+                    for beneficio, item in data[0].items():
+                        print("\n", beneficio.upper())
+                        for dado, valor in item.items():
+                            print(f"- {dado}: {valor}")
+                else:
+                    print("\n", matches[0].upper())
+                    for dado, valor in data[0].items():
+                        print(f"- {dado}: {valor}")
 
 
 def main():
+    os.system('clear')
     welcome_message = "Plano de benefícios da Previdência Social"
     print()
-    print((len(welcome_message) + 10) * '=')
-    print((len(welcome_message) + 10) * '=')
+    print((len(welcome_message) + 30) * '=')
+    print((len(welcome_message) + 30) * '=')
     print()
-    print(f"     {welcome_message:5}")
+    print(f"               {welcome_message:15}")
     print()
-    print((len(welcome_message) + 10) * '=')
-    print((len(welcome_message) + 10) * '=')
+    print((len(welcome_message) + 30) * '=')
+    print((len(welcome_message) + 30) * '=')
     print()
-    # try:
-    #     target = autocomplete()
-    #     print(f"As opções disponíveis são: ", target)
-    # except ValueError as error_message:
-    #     print("{}".format(error_message))
-
-    print(linear_search(plano_HM.array, "xx"))
-
-
-
+    try:
+        linear_search(plano_HM.array)
+    except ValueError as error_message:
+        print("{}".format(error_message))
+    finally:
+        os.system('exit')
 
 main()
-
-
