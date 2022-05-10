@@ -143,7 +143,7 @@ def linear_search(lista):
         linear_search(lista)
     else:
         print(f"A opção disponível com essas letras é {matches[0]}. Você quer consultar {matches[0]}?"
-              f" Digite 'S' para sim e 'N' para sair.")
+              f" Digite 'S' para sim.")
         answer = input("Sua escolha: ")
         if answer == "S":
             os.system("clear")
@@ -157,19 +157,24 @@ def linear_search(lista):
                 print("\n", matches[0].upper())
                 for dado, valor in data[0].items():
                     print(f"- {dado}: {valor}")
-
+    while True:
+        print()
+        again = input("Gostaria de realizar nova pesquisa? Digite 'S' para sim e qualquer tecla para sair.\n"
+                      'Sua escolha: ')
+        if again == "S":
+            os.system("clear")
+            linear_search(lista)
+        else:
+            print("Até a próxima!")
+            break
+        break
 
 def main():
     os.system('clear')
     welcome_message = "Plano de benefícios da Previdência Social"
-    print()
-    print((len(welcome_message) + 30) * '=')
-    print((len(welcome_message) + 30) * '=')
-    print()
-    print(f"               {welcome_message:15}")
-    print()
-    print((len(welcome_message) + 30) * '=')
-    print((len(welcome_message) + 30) * '=')
+    print("\n" + ((len(welcome_message) + 40) * '=') + '\n' + (len(welcome_message) + 40) * '=' + "\n")
+    print((" " * 20) + f"{welcome_message:20}")
+    print("\n" + ((len(welcome_message) + 40) * '=') + '\n' + (len(welcome_message) + 40) * '=')
     print()
     try:
         linear_search(plano_HM.array)
