@@ -128,59 +128,57 @@ def linear_search(lista):
     matches = []
     data = []
     while True:
-        target_chunk = input("Digite as iniciais do benefício a pesquisar e pressione <enter>. \nSua escolha: ")
+        target_chunk = input("  Digite as iniciais do benefício a pesquisar e pressione <enter>. \n  Sua escolha: ")
         for key, value in lista:
             if (target_chunk in key) or (target_chunk in value.values()):
                 matches.append(key)
                 data.append(value)
         if len(matches) == 0:
-            raise ValueError(f"Nenhum tópico com as letras {target_chunk} foi encontrado.")
+            raise ValueError(f"  Nenhum tópico com as letras {target_chunk} foi encontrado.")
         else:
             break
 
     if len(matches) > 1:
-        print(f"Com essas letras, as opções são: {matches}")
+        print(f"  Com essas letras, as opções são: {matches}")
         linear_search(lista)
     else:
-        print(f"A opção disponível com essas letras é {matches[0]}. Você quer consultar {matches[0]}?"
+        print(f"  A opção disponível com essas letras é {matches[0]}. Você quer consultar {matches[0]}?"
               f" Digite 'S' para sim.")
-        answer = input("Sua escolha: ")
+        answer = input("  Sua escolha: ")
         if answer == "S":
             os.system("clear")
-            print(f"\nEstes são os dados do benefício escolhido: {matches[0]}")
+            print(f"\n  Estes são os dados do benefício escolhido: {matches[0]}")
             if type(list(data[0].values())[0]) is not str:
                 for beneficio, item in data[0].items():
-                    print("\n", beneficio.upper())
+                    print("\n ", beneficio.upper())
                     for dado, valor in item.items():
-                        print(f"- {dado}: {valor}")
+                        print(f"  - {dado}: {valor}")
             else:
-                print("\n", matches[0].upper())
+                print("\n ", matches[0].upper())
                 for dado, valor in data[0].items():
-                    print(f"- {dado}: {valor}")
-    while True:
-        print()
-        again = input("Gostaria de realizar nova pesquisa? Digite 'S' para sim e qualquer tecla para sair.\n"
-                      'Sua escolha: ')
-        if again == "S":
-            os.system("clear")
-            linear_search(lista)
-        else:
-            print("Até a próxima!")
-            break
-        break
+                    print(f"  - {dado}: {valor}")
 
 def main():
     os.system('clear')
     welcome_message = "Plano de benefícios da Previdência Social"
-    print("\n" + ((len(welcome_message) + 40) * '=') + '\n' + (len(welcome_message) + 40) * '=' + "\n")
-    print((" " * 20) + f"{welcome_message:20}")
-    print("\n" + ((len(welcome_message) + 40) * '=') + '\n' + (len(welcome_message) + 40) * '=')
-    print()
+    print("\n  " + ((len(welcome_message) + 40) * '=') + '\n  ' + (len(welcome_message) + 40) * '=' + "\n")
+    print(("  " + " " * 20) + f"{welcome_message:20}")
+    print("\n  " + ((len(welcome_message) + 40) * '=') + '\n  ' + (len(welcome_message) + 40) * '=' + "\n")
     try:
         linear_search(plano_HM.array)
     except ValueError as error_message:
         print("{}".format(error_message))
-    finally:
-        os.system('exit')
+        linear_search(plano_HM.array)
+    while True:
+        print()
+        again = input("  Gostaria de realizar nova pesquisa? Digite 'S' para sim e qualquer tecla para sair.\n"
+                      '  Sua escolha: ')
+        if again == "S":
+            os.system("clear")
+            linear_search(plano_HM.array)
+        else:
+            print("  Até a próxima!")
+            break
+    os.system('exit')
 
 main()
