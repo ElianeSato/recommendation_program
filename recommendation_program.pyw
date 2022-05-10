@@ -5,7 +5,10 @@ import os
 plano_de_beneficios = {"aposentadoria":
     {"aposentadoria por tempo de contribuição" : {"beneficiário": "segurado",
                                                  "carência": 180,
-                                                 "idade mínima": 65},
+                                                 "tempo de contribuição(TC) - homem": 35,
+                                                  "tempo de contribuição(TC) - mulher": 30,
+                                                  "pontos - homem (idade + TC)": 105,
+                                                  "pontos - mulher (idade + TC)": 100},
     "aposentadoria especial": {"beneficiário": "segurado",
                                "carência": 180},
     "aposentadoria da pessoa portadora de deficiência": {"beneficiário": "segurado",
@@ -20,11 +23,26 @@ plano_de_beneficios = {"aposentadoria":
                                        "idade mínima": 60},
      "aposentadoria do professor": {"beneficiário": "segurado",
                                     "carência": 180,
-                                    "tempo de contribuição": 30,
-                                    "idade mínima": 60}},
-    "benefício por incapacidade":
-                           {"aposentadoria por incapacidade permanente": {"beneficiário": "segurado",
-                                                  "carência": 180},
+                                    "tempo de contribuição(TC) - homem": 30,
+                                    "tempo de contribuição(TC) - mulher": 25,
+                                    "idade mínima": 60,
+                                    "pontos - homem (idade + TC)": 100,
+                                    "pontos - mulher (idade + TC)": 92},
+     "aposentadoria - filiados até EC 103 - art16": {"beneficiário": "segurado",
+                                    "carência": 180,
+                                    "tempo de contribuição(TC) - homem": 35,
+                                    "tempo de contribuição(TC) - mulher": 30,
+                                    "idade mínima - homem": 65,
+                                    "idade mínima - mulher": 62},
+     "aposentadoria - filiados até EC 103 - art17": {"beneficiário": "segurado",
+                                    "carência": 180,
+                                    "tempo de contribuição(TC) - homem": 35,
+                                    "tempo de contribuição(TC) - mulher": 30,
+                                    "pedágio sobre TC": 1.5,
+                                    "requisito adicional - mulher": 28,
+                                    "requisito adicional - homem": 33}},
+    "benefício por incapacidade":{"aposentadoria por incapacidade permanente": {"beneficiário": "segurado",
+                                                                                "carência": 12},
     "auxílio-acidente": {"beneficiário": "segurado",
                          "carência": 0},
     "auxílio por incapacidade temporária": {"beneficiário": "segurado",
@@ -109,32 +127,36 @@ for key, value in plano_de_beneficios.items():
 def linear_search(lista):
     matches = []
     data = []
-    target_chunk = input("Digite as iniciais do termo a pesquisar e pressione <enter>. \nSua escolha: ")
-    for key, value in lista:
-        if (target_chunk in key) or (target_chunk in value.values()):
-            matches.append(key)
-            data.append(value)
-    if len(matches) == 0:
-        raise ValueError(f"Nenhum tópico com as letras {target_chunk} foi encontrado.")
-    else:
-        if len(matches) > 1:
-            print(f"Com essas letras, as opções são: {matches}")
-            linear_search(lista)
+    while True:
+        target_chunk = input("Digite as iniciais do benefício a pesquisar e pressione <enter>. \nSua escolha: ")
+        for key, value in lista:
+            if (target_chunk in key) or (target_chunk in value.values()):
+                matches.append(key)
+                data.append(value)
+        if len(matches) == 0:
+            raise ValueError(f"Nenhum tópico com as letras {target_chunk} foi encontrado.")
         else:
-            print(f"A opção disponível com essas letras é {matches[0]}. Você quer consultar {matches[0]}?"
-                  f" Digite 'S' para sim e 'N' para sair.")
-            answer = input("Sua escolha: ")
-            if answer == "S":
-                print(f"\nEstes são os dados do benefício escolhido: {matches[0]}")
-                if type(list(data[0].values())[0]) is not str:
-                    for beneficio, item in data[0].items():
-                        print("\n", beneficio.upper())
-                        for dado, valor in item.items():
-                            print(f"- {dado}: {valor}")
-                else:
-                    print("\n", matches[0].upper())
-                    for dado, valor in data[0].items():
+            break
+
+    if len(matches) > 1:
+        print(f"Com essas letras, as opções são: {matches}")
+        linear_search(lista)
+    else:
+        print(f"A opção disponível com essas letras é {matches[0]}. Você quer consultar {matches[0]}?"
+              f" Digite 'S' para sim e 'N' para sair.")
+        answer = input("Sua escolha: ")
+        if answer == "S":
+            os.system("clear")
+            print(f"\nEstes são os dados do benefício escolhido: {matches[0]}")
+            if type(list(data[0].values())[0]) is not str:
+                for beneficio, item in data[0].items():
+                    print("\n", beneficio.upper())
+                    for dado, valor in item.items():
                         print(f"- {dado}: {valor}")
+            else:
+                print("\n", matches[0].upper())
+                for dado, valor in data[0].items():
+                    print(f"- {dado}: {valor}")
 
 
 def main():
