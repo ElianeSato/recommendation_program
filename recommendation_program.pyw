@@ -14,6 +14,7 @@ plano_de_beneficios = {"aposentadoria":
                                "idade mínima - 15 anos de TE (anos)": 55,
                                "idade mínima - 20 anos de TE (anos)": 58,
                                "idade mínima - 25 anos de TE (anos)": 60},
+
     "aposentadoria da pessoa portadora de deficiência": {"beneficiário": "segurado",
                                                          "carência (meses)": 180,
                                                          "tempo de contribuição deficiência grave (anos)": 25,
